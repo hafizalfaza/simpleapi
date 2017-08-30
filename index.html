@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chat app</title>
+        <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <style>
+            .message-column{
+                width: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <form id="messageForm">
+                <input id="message" class="message-column" placeholder="message"/>
+                <select id="rooms">
+                    <option value="apple">
+                        Apple
+                    </option>
+                    <option value="orange">
+                        Orange
+                    </option>
+                    <option value="melon">
+                        Melon
+                    </option>
+                </select>
+                <button id="setRoomBtn" >Set room</button>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        
+        <script>
+            var socket = io.connect();
+
+            var roomName;
+
+            $('#setRoomBtn').click(function(){
+
+                roomName = $('#rooms').find(":selected").val();
+
+                socket.emit('join room', roomName);
+
+            })
+
+            $('#messageForm').submit(function(e){
+                e.preventDefault();
+
+                socket.emit('send message', {message: $('#message').val(), roomName: roomName});
+            })
+
+            socket.on('new message', function(message){
+                console.log(message)
+            })
+
+        </script>
+
+    </body>
+</html>
