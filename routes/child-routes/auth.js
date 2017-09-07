@@ -1,20 +1,22 @@
 import express from 'express';
 import {User} from '../../db/models/user';
+import {registerUser} from '../../db/controllers/user';
 
 const router = express.Router();
 
 // CREATE
 
 router.post('/register', (req, res) => {
-    User.create({
-        full_name: req.body.fullname,
-        panggilan: req.body.panggilan,
-        role: req.body.role,
-        is_employee: req.body.is_employee
-    }).then((user) => {
-        res.json({user})
-    }).catch((err) => {
-        console.log(err)
+
+    const {username, full_name, password, role} = req.body;
+    const queryData = {username, full_name, password, role}
+
+    registerUser(queryData, (err, result) => {
+        if(err){
+            return res.status(500).json({message: err})
+        }
+
+        res.json({result});        
     })
 })
 
