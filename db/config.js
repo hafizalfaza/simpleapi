@@ -11,5 +11,7 @@ export const dbconfig = {
           min: 0,
           idle: 10000
         },
-      }
+      },
+    
+      jwtSecret: 'cbiclussa123'
 }

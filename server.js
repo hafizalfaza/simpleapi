@@ -4,6 +4,8 @@ import path from 'path';
 import {sequelize} from './db/connection';
 import cors from 'cors';
 import rootRoutes from './routes/rootRoutes';
+import passport from 'passport';
+import {initPassport} from './config/passport';
 
 const app = express();
 
@@ -11,6 +13,11 @@ app.use(cors());
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+initPassport(passport);
 
 const port = process.env.PORT || 3000;
 
