@@ -7,6 +7,8 @@ const router = express.Router();
 
 // READ
 
+// Get profile data by id
+
 router.get('/:id', (req, res) => {
     
     const userId = req.params.id;
@@ -27,6 +29,8 @@ router.get('/:id', (req, res) => {
 
 
 // UPDATE
+
+// Update user profile
 
 router.put('/update', passport.authenticate('jwt', {session: false}), (req, res) => {
     

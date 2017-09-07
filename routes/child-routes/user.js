@@ -10,6 +10,8 @@ const router = express.Router();
 
 // CREATE
 
+// User registration
+
 router.post('/register', (req, res) => {
 
     const {queryData} = req.body;
@@ -26,6 +28,8 @@ router.post('/register', (req, res) => {
 
 
 // READ
+
+// User login
 
 router.post('/login', (req, res, next) => {
 
@@ -63,6 +67,8 @@ router.get('/my-profile', passport.authenticate('jwt', {session: false}), (req, 
 
 
 //UPDATE
+
+// Change user password
 
 router.put('/change-password', passport.authenticate('jwt', {session: false}), (req, res) => {
     
