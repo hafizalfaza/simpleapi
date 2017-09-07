@@ -1,9 +1,9 @@
 export const dbconfig = {
-    database: 'sql9192511',
-    username: 'sql9192511',
-    password: 'XBiR7Szb6D',
+    database: 'dbcbic',
+    username: 'dbcbic',
+    password: 'dbcbic123',
     host: {
-        host: 'sql9.freemysqlhosting.net',
+        host: '128.199.162.60',
         dialect: 'mysql',
       
         pool: {
@@ -13,5 +13,5 @@ export const dbconfig = {
         },
       },
     
-      jwtSecret: 'cbiclussa123'
+      jwtSecret: 'lussacbic2017'
 }

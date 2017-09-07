@@ -7,19 +7,41 @@ export const User = sequelize.define('user', {
       type: Sequelize.STRING(100)
     },
     full_name: {
-      type: Sequelize.STRING(100)
+      type: Sequelize.STRING(100),
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'please enter your name'
+        },
+      }
     },
     panggilan: {
       type: Sequelize.STRING
     },
     username: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'please enter a username'
+        },
+      }
     },
     nik: {
       type: Sequelize.STRING(15)
     },
     password: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'please enter a password'
+        },
+        min: {
+          args: 8,
+          msg: "password must be at least 8 characters"
+        }
+      }
     },
     status: {
       type: Sequelize.STRING(45)
@@ -37,7 +59,16 @@ export const User = sequelize.define('user', {
       type: Sequelize.STRING
     },
     email: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'please enter a valid email'
+        },
+        isEmail: {
+          msg: 'please enter a valid email'
+        }        
+      }
     },
     date_created: {
       type: Sequelize.DATE

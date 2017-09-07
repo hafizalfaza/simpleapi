@@ -12,8 +12,7 @@ const router = express.Router();
 
 router.post('/register', (req, res) => {
 
-    const {username, full_name, password, email, role} = req.body;
-    const queryData = {username, full_name, password, email, role}
+    const {queryData} = req.body;
 
     registerUser(queryData, (err, result) => {
         if(err){
@@ -39,7 +38,7 @@ router.post('/login', (req, res, next) => {
         }
 
         if(crypto.createHash('md5').update(queryData.password).digest("hex") !== result.password){
-            return res.status(401).json({message: "Invalid credentials"});
+            return res.status(401).json({message: "invalid credentials"});
         }
 
         const token = jwt.sign({
@@ -51,6 +50,18 @@ router.post('/login', (req, res, next) => {
 });
 
 
+router.get('/my-profile', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const userData = req.user.dataValues;
+
+    if(!userData){
+        return res.json({message: 'no data'})
+    }
+
+    res.json({userData})
+    
+})
+
+
 //UPDATE
 
 router.put('/change-password', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -58,21 +69,30 @@ router.put('/change-password', passport.authenticate('jwt', {session: false}), (
     const { id } = req.user.dataValues;
     const { password } = req.user.dataValues;
     const { oldPassword } = req.body.queryData;
-    const newPassword = crypto.createHash('md5').update(req.body.queryData.newPassword).digest("hex");
+
+    const { inputPassword } = req.body.queryData;
+
+    const { confirmPassword } = req.body.queryData
+
+    const newPassword = crypto.createHash('md5').update(req.body.queryData.inputPassword).digest("hex");
 
 
     const queryData = {id, newPassword}
 
     if(password !== crypto.createHash('md5').update(oldPassword).digest("hex")){
-        return res.status(401).json({message: 'Incorrect old password'})
+        return res.status(401).json({message: 'incorrect old password'})
+    }
+
+    if(inputPassword !== confirmPassword){
+        return res.status(401).json({message: "passwords don't match"})
     }
 
     changeUserPassword(queryData, (err, result) => {
         if(err){
-            return res.status(500).json({message: 'Internal server error'})
+            return res.status(500).json({message: 'internal server error'})
         }
 
-        res.json({result});
+        res.json({message: "your password was successfully changed"});
     })
 })
 
