@@ -22,7 +22,9 @@ router.get('', (req, res) => {
 router.post('/submit', passport.authenticate('jwt', {session: false}), (req, res) => {
     
     const userData = req.user.dataValues;
-    const { queryData } = req.body;
+    const { alasan, detail, id } = req.body;
+
+    const queryData = {alasan, detail};
 
     queryData.user_id = userData.id;
     queryData.nama = userData.full_name;
@@ -44,9 +46,11 @@ router.post('/submit', passport.authenticate('jwt', {session: false}), (req, res
 
 router.put('/update', passport.authenticate('jwt', {session: false}), (req, res) => {
 
-    const userData = req.user.dataValues;
+    const userData = req.user.dataValues
 
-    const { queryData } = req.body;
+    const queryData= {...req.body};
+
+    queryData.updated = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     if(queryData.user_id !== userData.id){
         return res.status(401).json({message: 'you are unauthorized to edit this feedback'})

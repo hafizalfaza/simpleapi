@@ -1,4 +1,5 @@
 import {User} from '../models/user';
+import { Update } from '../models/update';
 import crypto from 'crypto';
 
 export const registerUser = (data, callback) => {
@@ -97,3 +98,5 @@ export const changeUserPassword = (queryData, callback) => {
           callback(err, null)
       })
 }
+
+User.hasMany(Update, {foreignKey : 'user_id'});

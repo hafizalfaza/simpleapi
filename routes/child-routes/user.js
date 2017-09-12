@@ -33,7 +33,7 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res, next) => {
 
-    const {queryData} = req.body
+    const queryData = {...req.body}
     
     userLogin(queryData, (err, result) => {
 

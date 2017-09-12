@@ -2,6 +2,8 @@ import {sequelize} from '../connection';
 
 import Sequelize from 'sequelize';
 
+import { Update } from './update';
+
 export const User = sequelize.define('user', {
     role: {
       type: Sequelize.STRING(100)

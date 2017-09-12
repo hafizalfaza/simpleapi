@@ -2,7 +2,6 @@ import express from 'express';
 import { getProfileById, updateProfileData } from '../../db/controllers/profile';
 import passport from 'passport';
 
-
 const router = express.Router();
 
 // READ
@@ -36,7 +35,7 @@ router.put('/update', passport.authenticate('jwt', {session: false}), (req, res)
     
     const userData = req.user.dataValues;
 
-    const { queryData } = req.body;
+    const queryData = { ...req.body };
 
     if(queryData.password) {
         delete queryData.password
